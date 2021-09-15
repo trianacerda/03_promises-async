@@ -2,7 +2,7 @@ import { rm, mkdir } from 'fs/promises';
 import { SimpleDb } from './SimpleDb.js';
 
 describe('file copier', () => {
-  const destination = '../__tests__/destination';
+  const destination = './__tests__/destination';
 
   beforeEach(() => {
     return rm(destination, { force: true, recursive: true }).then(() => {
