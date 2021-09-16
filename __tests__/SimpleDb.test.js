@@ -21,4 +21,29 @@ describe('file copier', () => {
       expect(tala.id).toEqual(expect.any(String));
     });
   });
+  it('should save and retrieve an object', () => {
+    const db = new SimpleDb(destination);
+    const tala = {
+      breed: 'dog',
+      color: 'tri',
+      paws: 4,
+    };
+
+    return db
+      .save(tala)
+      .then(() => {
+        return db.get();
+      })
+      .then((db.body.id) => {
+        expect(db.body.id).toEqual(tala.id);
+      });
+  });
+
+  it('should return null if no object was returned', () => {
+    const db = new SimpleDb(destination);
+
+    return db.get().then((display) => {
+      expect(display).toBeNull();
+    });
+  });
 });
