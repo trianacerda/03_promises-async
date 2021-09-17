@@ -1,17 +1,17 @@
 import { rm, mkdir } from 'fs/promises';
-import { SimpleDb } from './SimpleDb.js';
+import { SimpleDb } from '../lib/SimpleDb.js';
 
 describe('file copier', () => {
-  const destination = './__tests__/destination';
+  const copyStore = '../copyStore';
 
   beforeEach(() => {
-    return rm(destination, { force: true, recursive: true }).then(() => {
-      return mkdir(destination);
+    return rm(copyStore, { force: true, recursive: true }).then(() => {
+      return mkdir(copyStore);
     });
   });
 
-  it('saved obj should have an id', () => {
-    const db = new SimpleDb(destination);
+  it.only('should save an obj and generate random id string', () => {
+    const db = new SimpleDb(copyStore);
     const tala = {
       breed: 'dog',
       color: 'tri',
@@ -22,7 +22,7 @@ describe('file copier', () => {
     });
   });
   it('should save and retrieve an object', () => {
-    const db = new SimpleDb(destination);
+    const db = new SimpleDb(copyStore);
     const tala = {
       breed: 'dog',
       color: 'tri',
@@ -34,13 +34,13 @@ describe('file copier', () => {
       .then(() => {
         return db.get();
       })
-      .then((db.body.id) => {
-        expect(db.body.id).toEqual(tala.id);
+      .then((db) => {
+        expect(db).toEqual(tala.id);
       });
   });
 
   it('should return null if no object was returned', () => {
-    const db = new SimpleDb(destination);
+    const db = new SimpleDb(copyStore);
 
     return db.get().then((display) => {
       expect(display).toBeNull();
