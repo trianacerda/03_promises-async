@@ -46,4 +46,18 @@ describe('file copier', () => {
       expect(display).toBeNull();
     });
   });
+
+  // it('should return all ', () => {
+  //   const db = new SimpleDb(copyStore);
+  //   const tala = {
+  //       breed: 'dog',
+  //       color: 'tri',
+  //       paws: 4,
+  //     },
+  //   ;
+  //   return db.getAll().then((db) => {
+  //     return db.get(tala.id);
+  //     expect(tala.id).toEqual();
+  //   });
+  // });
 });
