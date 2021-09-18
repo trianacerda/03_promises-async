@@ -49,17 +49,32 @@ describe('file copier', () => {
 
   it('should return all ', () => {
     const db = new SimpleDb(copyStore);
-
     const tala = {
       breed: 'dog',
       color: 'tri',
       paws: 4,
     };
+
     const luna = {
       breed: 'dog',
       color: 'blue merle',
       paws: 5,
     };
+
+    const dogs = [
+      {
+        breed: 'dog',
+        color: 'tri',
+        paws: 4,
+        id: expect.any(String),
+      },
+      {
+        breed: 'dog',
+        color: 'blue merle',
+        paws: 5,
+        id: expect.any(String),
+      },
+    ];
 
     return db
       .save(tala)
@@ -69,8 +84,9 @@ describe('file copier', () => {
       .then(() => {
         db.getAll();
       })
-      .then((db) => {
-        expect(db).toEqual([tala, luna]);
+      .then((object) => {
+        console.log('LOOK', db.getAll());
+        expect(object).toEqual(dogs);
       });
   });
 });
