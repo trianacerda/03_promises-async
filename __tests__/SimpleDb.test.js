@@ -1,17 +1,17 @@
 import { rm, mkdir } from 'fs/promises';
-import { SimpleDb } from './SimpleDb.js';
+import { SimpleDb } from '../lib/SimpleDb.js';
 
 describe('file copier', () => {
-  const destination = './__tests__/destination';
+  const copyStore = '../copyStore';
 
   beforeEach(() => {
-    return rm(destination, { force: true, recursive: true }).then(() => {
-      return mkdir(destination);
+    return rm(copyStore, { force: true, recursive: true }).then(() => {
+      return mkdir(copyStore, { recursive: true });
     });
   });
 
-  it('saved obj should have an id', () => {
-    const db = new SimpleDb(destination);
+  it('should save an obj and generate random id string', () => {
+    const db = new SimpleDb(copyStore);
     const tala = {
       breed: 'dog',
       color: 'tri',
@@ -21,8 +21,8 @@ describe('file copier', () => {
       expect(tala.id).toEqual(expect.any(String));
     });
   });
-  it('should save and retrieve an object', () => {
-    const db = new SimpleDb(destination);
+  it('should get a file by id and read it', () => {
+    const db = new SimpleDb(copyStore);
     const tala = {
       breed: 'dog',
       color: 'tri',
@@ -32,18 +32,61 @@ describe('file copier', () => {
     return db
       .save(tala)
       .then(() => {
-        return db.get();
+        return db.get(tala.id);
       })
-      .then((db.body.id) => {
-        expect(db.body.id).toEqual(tala.id);
+      .then((db) => {
+        expect(db.id).toEqual(tala.id);
       });
   });
 
   it('should return null if no object was returned', () => {
-    const db = new SimpleDb(destination);
+    const db = new SimpleDb(copyStore);
 
     return db.get().then((display) => {
       expect(display).toBeNull();
     });
+  });
+
+  xit('should return all ', () => {
+    const db = new SimpleDb(copyStore);
+    const tala = {
+      breed: 'dog',
+      color: 'tri',
+      paws: 4,
+    };
+
+    const luna = {
+      breed: 'dog',
+      color: 'blue merle',
+      paws: 5,
+    };
+
+    const dogs = [
+      {
+        breed: 'dog',
+        color: 'tri',
+        paws: 4,
+        id: expect.any(String),
+      },
+      {
+        breed: 'dog',
+        color: 'blue merle',
+        paws: 5,
+        id: expect.any(String),
+      },
+    ];
+
+    return db
+      .save(tala)
+      .then(() => {
+        db.save(luna);
+      })
+      .then(() => {
+        db.getAll();
+      })
+      .then((objects) => {
+        console.log('LOOK', db.getAll());
+        expect(objects).toEqual(expect.arrayContaining(dogs));
+      });
   });
 });
