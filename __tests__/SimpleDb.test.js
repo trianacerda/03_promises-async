@@ -86,7 +86,7 @@ describe('file copier', () => {
       })
       .then((objects) => {
         console.log('LOOK', db.getAll());
-        expect(objects).toEqual(dogs);
+        expect(objects).toEqual(expect.arrayContaining(dogs));
       });
   });
 });
