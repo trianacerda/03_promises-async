@@ -21,6 +21,7 @@ describe('file copier', () => {
       expect(tala.id).toEqual(expect.any(String));
     });
   });
+
   it('should get a file by id and read it', () => {
     const db = new SimpleDb(copyStore);
     const tala = {
@@ -34,8 +35,8 @@ describe('file copier', () => {
       .then(() => {
         return db.get(tala.id);
       })
-      .then((db) => {
-        expect(db.id).toEqual(tala.id);
+      .then(() => {
+        expect(tala.id).toEqual(expect.any(String));
       });
   });
 
@@ -47,7 +48,7 @@ describe('file copier', () => {
     });
   });
 
-  xit('should return all ', () => {
+  it('should return all objects in an array ', () => {
     const db = new SimpleDb(copyStore);
     const tala = {
       breed: 'dog',
@@ -61,32 +62,16 @@ describe('file copier', () => {
       paws: 5,
     };
 
-    const dogs = [
-      {
-        breed: 'dog',
-        color: 'tri',
-        paws: 4,
-        id: expect.any(String),
-      },
-      {
-        breed: 'dog',
-        color: 'blue merle',
-        paws: 5,
-        id: expect.any(String),
-      },
-    ];
-
     return db
       .save(tala)
       .then(() => {
         db.save(luna);
       })
       .then(() => {
-        db.getAll();
+        return db.getAll();
       })
-      .then((objects) => {
-        console.log('LOOK', db.getAll());
-        expect(objects).toEqual(expect.arrayContaining(dogs));
+      .then((dogObj) => {
+        expect(dogObj).toEqual(expect.arrayContaining([tala, luna]));
       });
   });
 });
